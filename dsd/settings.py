@@ -1,6 +1,9 @@
 import os
 import sys
 
+import django_heroku
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'q*rja^6hn4@s8(%vqu86m^4t_*=wg_h_g65j3%c%@rt2da-h4+'
@@ -35,6 +38,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'dsd.urls'
+
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 TEMPLATES = [
     {
@@ -90,7 +95,16 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+
+STATIC_ROOT = './static_root'
+
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
 
 try:
     from dsd.local_settings import *
