@@ -10,5 +10,12 @@ frontend_urls = [
         name='login'
     ),
 
+    path(
+        'logout/',
+        auth_views.logout,
+        {'next_page': '/'},
+        name='logout'
+    ),
+
     path('', ProductListView.as_view(), name='product-list'),
 ]

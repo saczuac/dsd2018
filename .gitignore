@@ -128,3 +128,4 @@ static/bower_components
 builder/config.py
 bankdeposit
 deposits
+static/frontend/node_modules/
