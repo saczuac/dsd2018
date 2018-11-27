@@ -14,6 +14,8 @@ ALLOWED_HOSTS = []
 
 LOGIN_URL = 'login'
 
+LOGIN_REDIRECT_URL = 'product-list'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

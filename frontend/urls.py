@@ -10,5 +10,5 @@ frontend_urls = [
         name='login'
     ),
 
-    path('', ProductListView.as_view()),
+    path('', ProductListView.as_view(), name='product-list'),
 ]
