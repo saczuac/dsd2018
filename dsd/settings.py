@@ -12,6 +12,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'login'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'django_filters',
     'products',
+    'frontend',
     'coupons',
     'employees'
 ]
@@ -46,7 +49,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
