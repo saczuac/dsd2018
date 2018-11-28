@@ -6,6 +6,7 @@ import ProductAPIClient from './products';
 
 const showDetailOfProduct = product => {
     console.log('SHOW DETAIL of: ', product)
+    window.location.href = `/buy/${product.id}`
 }
 
 
@@ -23,8 +24,7 @@ const drawProducts = products => {
           h('div.product-info.thumbnail', [
             h('div.caption', [
                 h('h4.group.inner.list-group-item-heading', `${product.name}`),
-                h('p.group.inner.list-group-item-text', `Cost Price: ${product.cost_price}`),
-                h('p.group.inner.list-group-item-text', `Sale Price: ${product.sale_price}`),
+                h('p.group.inner.list-group-item-text', `Price: ${product.price}`),
                 h('p.group.inner.list-group-item-text', `Product Type: ${product.product_type}`)
             ])
           ])
@@ -35,8 +35,13 @@ const drawProducts = products => {
     });
 }
 
-ProductAPIClient.getProducts().then(products => {
-    console.log(products, 'PRODUCTOS DESDE API');
+const fetchProducts = _ => {
+  ProductAPIClient.getProducts().then(products => {
+      console.log(products, 'PRODUCTOS DESDE API');
 
-    products && drawProducts(products);
-})
+      products && drawProducts(products);
+  })
+}
+
+// FETCH PRODUCTS IF LIST
+window.location.pathname == '/' && fetchProducts();

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import ProductListView
+from .views import ProductListView, ProductBuyView
 
 frontend_urls = [
     path(
@@ -17,5 +17,6 @@ frontend_urls = [
         name='logout'
     ),
 
+    path('buy/<int:product_id>', ProductBuyView.as_view(), name='product-buy'),
     path('', ProductListView.as_view(), name='product-list'),
 ]

@@ -14,6 +14,26 @@ class Product(models.Model):
         on_delete=models.PROTECT
     )
 
+    def calculate_price(self):
+        discount = 0
+        price = self.sale_price
+        diff = self.sale_price - self.cost_price
+
+        if self.product_type.initials.lower() == 'electro':
+            discount = (diff * 50) / 100
+        else:
+            ten_percentage = (self.cost_price * 10) / 100
+
+            if diff > ten_percentage:
+                excedent = diff - ten_percentage
+                discount = (excedent * 80) / 100
+                excedent = excedent - discount
+
+                return self.cost_price + ten_percentage + excedent
+
+        price = price - discount
+        return price
+
     class Meta:
         verbose_name = "Producto"
         verbose_name_plural = "Productos"
