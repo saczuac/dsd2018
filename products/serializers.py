@@ -3,6 +3,10 @@ from .models import Product, ProductType
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    product_type = serializers.SerializerMethodField()
+
+    def get_product_type(self, obj):
+        return obj.product_type.initials
 
     class Meta:
         model = Product

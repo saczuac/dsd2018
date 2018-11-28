@@ -14,17 +14,19 @@ const drawProducts = products => {
     productList.empty(); // empty it first
 
     products.forEach(product => {
-      let li = h(`li#product-item-${product.id}.product-item`,[
+      let li = h(`div#product-item-${product.id}.product-item.col-sm-4`,[
         h('a', {
           onclick: e => {
             showDetailOfProduct(product)
           }
         }, [
-          h('div.product-info', [
-            h('div.product-name', `${product.name}`),
-            h('div.product-cost-price', `${product.cost_price}`),
-            h('div.product-sale-price', `${product.sale_price}`),
-            h('div.product-type', `${product.product_type}`)
+          h('div.product-info.thumbnail', [
+            h('div.caption', [
+                h('h4.group.inner.list-group-item-heading', `${product.name}`),
+                h('p.group.inner.list-group-item-text', `Cost Price: ${product.cost_price}`),
+                h('p.group.inner.list-group-item-text', `Sale Price: ${product.sale_price}`),
+                h('p.group.inner.list-group-item-text', `Product Type: ${product.product_type}`)
+            ])
           ])
         ])
       ]);
