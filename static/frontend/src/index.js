@@ -43,5 +43,77 @@ const fetchProducts = _ => {
   })
 }
 
+const doBuy = _ => {
+  console.log('DO BUY')
+}
+
+const cancelBuy = _ => {
+  console.log('CANCEL BUY')
+}
+
+const startProcess = _ => {
+  const coupon = $('#coupon').val();
+
+  const productForm = $('#product-form');
+  productForm.empty();
+
+  const price = 0;
+
+  const detailHtml = $('#product-detail');
+
+  let buyForm = h(`div#product-form`,[
+    h('div', [
+      h('h4.group', `PRECIO FINAL ${price}`),
+      h('input.btn.btn-default#buyBtn', {
+        'type': 'submit',
+        'value': 'CONFIRMAR COMPRA',
+        onclick: e => {
+          doBuy()
+        },
+      }),
+    ]),
+    h('div', [
+      h('input.btn.btn-default#cancelBtn', {
+        'type': 'submit',
+        'value': 'CANCELAR COMPRA',
+        onclick: e => {
+          cancelBuy()
+        },
+      }),
+    ]),
+  ]);
+
+  detailHtml.append(buyForm);
+
+  console.log('start process', coupon)
+  // PEGARLE A BONITA PARA ARRANCAR PROCESO CON CUPON, ID PRODUCTO, SI ES EMPLEADO O NO
+}
+
+const showBuyForm = _ => {
+  const detailHtml = $('#product-detail');
+
+  let buyForm = h(`div#product-form`,[
+    h('div', [
+      h('span.span-cupon', 'Ingrese cupón en caso de tener'),
+      h('input.form-control#coupon', {
+        'type': 'text'
+      }),
+      h('input.btn.btn-default#calculate', {
+        'type': 'submit',
+        'value': 'CONTINUAR COMPRA',
+        onclick: e => {
+          startProcess()
+        },
+      }),
+    ])
+  ]);
+
+  detailHtml.append(buyForm);
+}
+
 // FETCH PRODUCTS IF LIST
-window.location.pathname == '/' && fetchProducts();
+if (window.location.pathname == '/') {
+  fetchProducts();
+} else {
+  showBuyForm();
+}

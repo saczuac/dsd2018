@@ -16,6 +16,14 @@ LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'product-list'
 
+BONITA_URL = 'http://localhost:8080/bonita'
+
+BONITA_USERNAME = 'walter.bates'
+
+BONITA_PASSWORD = 'bpm'
+
+BONITA_PROCESS_ID = '5551734788231009990'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,6 +38,7 @@ INSTALLED_APPS = [
     'django_filters',
     'products',
     'frontend',
+    'bonita',
     'coupons',
     'employees'
 ]

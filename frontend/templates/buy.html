@@ -28,9 +28,11 @@
 
 	</nav>
 
-	<div id="product-detail"  class="row">
-		{{ product.name }}
-
+	<div class="container" id="product-detail">
+		<div class="card">
+			<h4 class="price">Nombre: <span>{{ product.name }}</span></h4>
+			<h4 class="price">Precio: <span>{{ product.price }}</span></h4>
+		</div>
 	</div>
 
 	<script

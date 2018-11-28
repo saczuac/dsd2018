@@ -4,6 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from products.models import Product
 
+from employees.models import Employee
+
 
 class ProductListView(LoginRequiredMixin, TemplateView):
     template_name = "list.html"
@@ -17,5 +19,13 @@ class ProductBuyView(TemplateView):
         product_id = kwargs.get('product_id')
         if product_id:
             product = Product.objects.get(id=product_id)
+
+            is_employee = Employee.objects.filter(user=self.request.user)
+
+            if is_employee:
+                product.price = product.cost_price
+            else:
+                product.price = product.calculate_price()
+
             context['product'] = product
         return context
