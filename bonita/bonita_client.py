@@ -32,7 +32,7 @@ class BonitaClient:
         self.token = res.cookies.get('X-Bonita-API-Token', '')
         return True
 
-    def start_process(self, variables={}):
+    def start_process(self, variables=[]):
         if not self.sessionid:
             return False
 
@@ -58,5 +58,7 @@ class BonitaClient:
                 'X-Bonita-API-Token': self.token
             }
         )
+
+        # bc.start_process([{'name': 'id_producto', 'value': 1}, {'name': 'id_cupon', 'value': 3}])
 
         return res
