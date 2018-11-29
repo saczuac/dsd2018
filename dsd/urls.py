@@ -7,6 +7,8 @@ from employees.urls import employees_urls
 
 from frontend.urls import frontend_urls
 
+from sales.urls import sales_urls
+
 from coupons.urls import coupons_urls
 
 from rest_framework_swagger.views import get_swagger_view
@@ -21,6 +23,7 @@ urlpatterns = [
     path('api/products/', include(products_urls)),
     path('api/employees/', include(employees_urls)),
     path('api/coupons/', include(coupons_urls)),
+    path('api/sales/', include(sales_urls)),
     path('auth', obtain_jwt_token),
     path('admin/', admin.site.urls),
 ]

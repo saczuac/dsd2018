@@ -22,7 +22,7 @@ BONITA_USERNAME = 'walter.bates'
 
 BONITA_PASSWORD = 'bpm'
 
-BONITA_PROCESS_ID = '5551734788231009990'
+BONITA_PROCESS_ID = '5773810143045260892'
 
 
 INSTALLED_APPS = [
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'products',
     'frontend',
     'bonita',
+    'sales',
     'coupons',
     'employees'
 ]
@@ -121,6 +122,19 @@ STATIC_ROOT = './static_root'
 STATIC_URL = '/static/'
 
 django_heroku.settings(locals())
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
 
 try:
     from dsd.local_settings import *

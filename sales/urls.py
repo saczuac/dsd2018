@@ -2,12 +2,11 @@ from django.conf.urls import url, include
 
 from rest_framework.routers import DefaultRouter
 
-from .api import CouponViewSet
+from .api import SaleViewSet
 
 router = DefaultRouter()
-router.register(r'coupons', CouponViewSet)
+router.register(r'sales', SaleViewSet)
 
-
-coupons_urls = [
+sales_urls = [
     url(r'^', include(router.urls)),
 ]

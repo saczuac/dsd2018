@@ -7,7 +7,7 @@ const ProductAPIClient = {
     productDetail: null,
 
     getProducts: _ => {
-        const url = `${Config.server.url}/api/products/list`;
+        const url = `/api/products/list`;
 
         return fetch(url, {
                     credentials: 'same-origin',
@@ -27,7 +27,7 @@ const ProductAPIClient = {
     },
 
     getProductDetail: id => {
-        const url = `${Config.server.url}/api/products/list/${id}`;
+        const url = `/api/products/list/${id}`;
 
         return fetch(url, {
                     credentials: 'same-origin',

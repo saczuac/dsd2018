@@ -4,7 +4,13 @@ from __future__ import unicode_literals
 from .models import Product, ProductType
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .serializers import ProductTypeSerializer, ProductSerializer, ProductEmployeeSerializer
+
+from .serializers import (
+    ProductTypeSerializer,
+    ProductSerializer,
+    ProductEmployeeSerializer
+)
+
 from rest_framework import permissions
 
 from rest_framework import status
@@ -16,7 +22,7 @@ from employees.models import Employee
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class ProductDiscriminatedView(APIView):
@@ -24,7 +30,13 @@ class ProductDiscriminatedView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None, format=None):
-        is_employee = Employee.objects.filter(user=request.user)
+        is_employee = request.GET.get('is_employee', False)
+
+        if not is_employee:
+            is_employee = Employee.objects.filter(user=request.user)
+        else:
+            is_employee = is_employee == 'true'
+
         serializer_class = ProductSerializer
         serializer = None
 
@@ -34,9 +46,12 @@ class ProductDiscriminatedView(APIView):
         if pk:
             product = Product.objects.filter(pk=pk)
             if not product:
-                return Response({'error': 'Product not found'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {'error': 'Product not found'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-            serializer = serializer_class(product)
+            serializer = serializer_class(product.first())
         else:
             serializer = serializer_class(self.queryset.all(), many=True)
 
