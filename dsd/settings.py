@@ -22,7 +22,7 @@ BONITA_USERNAME = 'walter.bates'
 
 BONITA_PASSWORD = 'bpm'
 
-BONITA_PROCESS_ID = '5773810143045260892'
+BONITA_PROCESS_ID = '7439613679614746901'
 
 
 INSTALLED_APPS = [
@@ -120,6 +120,8 @@ STATICFILES_DIRS = (
 STATIC_ROOT = './static_root'
 
 STATIC_URL = '/static/'
+
+SITE_URL = 'http://localhost:8000'
 
 django_heroku.settings(locals())
 

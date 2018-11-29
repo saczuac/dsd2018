@@ -7,6 +7,8 @@ from employees.urls import employees_urls
 
 from frontend.urls import frontend_urls
 
+from bonita.urls import bonita_urls
+
 from sales.urls import sales_urls
 
 from coupons.urls import coupons_urls
@@ -21,6 +23,7 @@ urlpatterns = [
     path('', include(frontend_urls)),
     path('api/', schema_view),
     path('api/products/', include(products_urls)),
+    path('api/bonita/', include(bonita_urls)),
     path('api/employees/', include(employees_urls)),
     path('api/coupons/', include(coupons_urls)),
     path('api/sales/', include(sales_urls)),

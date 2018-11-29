@@ -64,15 +64,18 @@ class BonitaClient:
             }
         )
 
-        #bc.set_variable(1031, 'confirma', 'java.lang.Boolean', 'true')
-
         return res
 
-    def get_human_task(self, case_id):
+    def get_variable(self, case_id, v_name):
         if not self.sessionid:
             return False
 
-        url = '{0}/{1}{2}'.format(self.url, 'API/bpm/humanTask?f=caseId=', case_id)
+        url = '{0}/{1}/{2}/{3}'.format(
+            self.url,
+            'API/bpm/caseVariable',
+            case_id,
+            v_name
+        )
 
         cookies = {
             'JSESSIONID': self.sessionid,
@@ -89,7 +92,32 @@ class BonitaClient:
             }
         )
 
-        #  bc.get_human_task(1031)
+        return res.json().get('value')
+
+    def get_human_task(self, case_id):
+        if not self.sessionid:
+            return False
+
+        url = '{0}/{1}{2}'.format(
+            self.url,
+            'API/bpm/humanTask?f=caseId=',
+            case_id
+        )
+
+        cookies = {
+            'JSESSIONID': self.sessionid,
+            'X-Bonita-API-Token': self.token
+        }
+
+        res = requests.get(
+            url,
+            cookies=cookies,
+            headers={
+                "Content-type": "application/json",
+                'JSESSIONID': self.sessionid,
+                'X-Bonita-API-Token': self.token
+            }
+        )
 
         return res.json()[0]
 
@@ -97,7 +125,12 @@ class BonitaClient:
         if not self.sessionid:
             return False
 
-        url = '{0}/{1}/{2}/{3}'.format(self.url, 'API/bpm/userTask', task_id, 'execution')
+        url = '{0}/{1}/{2}/{3}'.format(
+            self.url,
+            'API/bpm/userTask',
+            task_id,
+            'execution'
+        )
 
         cookies = {
             'JSESSIONID': self.sessionid,
@@ -170,7 +203,5 @@ class BonitaClient:
                 'X-Bonita-API-Token': self.token
             }
         )
-
-        #bc.start_process([{'name': 'id_producto', 'value': 1}, {'name': 'server_url', 'value': 'http://localhost:8006'}, {'name': 'numero_cupon', 'value': 123 }, {'name': 'user_id', 'value': 1 }, {'name': 'is_employee', 'value': 'true' }])
 
         return res.json()
