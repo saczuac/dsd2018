@@ -14,13 +14,17 @@ from .bonita_client import BonitaClient
 
 from django.conf import settings
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
+
+@method_decorator(csrf_exempt, name='post')
 class BonitaStartProcessView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
-        product_id = self.request.POST.get('product_id')
-        coupon_number = self.request.POST.get('coupon_number')
+        product_id = self.request.data.get('product_id')
+        coupon_number = self.request.data.get('coupon_number')
         user_id = self.request.user.id
         is_employee_q = Employee.objects.filter(user=request.user)
         is_employee = 'true' if is_employee_q else 'false'
@@ -65,12 +69,13 @@ class BonitaStartProcessView(APIView):
             )
 
 
+@method_decorator(csrf_exempt, name='post')
 class BonitaConfirmTaskView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
-        confirm = self.request.POST.get('confirm')
-        case_id = self.request.POST.get('case_id')
+        confirm = self.request.data.get('confirm')
+        case_id = self.request.data.get('case_id')
 
         try:
             if confirm and case_id:
@@ -149,6 +154,7 @@ class BonitaConfirmTaskView(APIView):
             )
 
 
+@method_decorator(csrf_exempt, name='get')
 class BonitaGetVariableView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
