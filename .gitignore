@@ -129,3 +129,4 @@ builder/config.py
 bankdeposit
 deposits
 static/frontend/node_modules/
+tatic/frontend/package-lock.json
