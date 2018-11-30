@@ -14,11 +14,7 @@ from .bonita_client import BonitaClient
 
 from django.conf import settings
 
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 
-
-@method_decorator(csrf_exempt, name='post')
 class BonitaStartProcessView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -38,13 +34,21 @@ class BonitaStartProcessView(APIView):
                 logged_in = bc.login()
 
                 if logged_in:
-                    bonita_process = bc.start_process([
-                        {'name': 'id_producto', 'value': product_id},
-                        {'name': 'server_url', 'value': server_url},
-                        {'name': 'numero_cupon', 'value': coupon_number},
-                        {'name': 'user_id', 'value': user_id},
-                        {'name': 'is_employee', 'value': is_employee}
-                    ])
+                    if coupon_number:
+                        bonita_process = bc.start_process([
+                            {'name': 'id_producto', 'value': product_id},
+                            {'name': 'server_url', 'value': server_url},
+                            {'name': 'numero_cupon', 'value': coupon_number},
+                            {'name': 'user_id', 'value': user_id},
+                            {'name': 'is_employee', 'value': is_employee}
+                        ])
+                    else:
+                        bonita_process = bc.start_process([
+                            {'name': 'id_producto', 'value': product_id},
+                            {'name': 'server_url', 'value': server_url},
+                            {'name': 'user_id', 'value': user_id},
+                            {'name': 'is_employee', 'value': is_employee}
+                        ])
 
                     case_id = bonita_process.get('rootCaseId')
 
@@ -69,7 +73,6 @@ class BonitaStartProcessView(APIView):
             )
 
 
-@method_decorator(csrf_exempt, name='post')
 class BonitaConfirmTaskView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -154,7 +157,6 @@ class BonitaConfirmTaskView(APIView):
             )
 
 
-@method_decorator(csrf_exempt, name='get')
 class BonitaGetVariableView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 

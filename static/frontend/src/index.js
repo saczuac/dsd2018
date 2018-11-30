@@ -2,6 +2,7 @@ import $ from 'jquery';
 import h from 'hyperscript';
 
 import ProductAPIClient from './products';
+import BonitaAPIClient from './bonita';
 
 
 const showDetailOfProduct = product => {
@@ -43,12 +44,29 @@ const fetchProducts = _ => {
   })
 }
 
+const showDone = (ok=true) => {
+  const detailHtml = $('#product-detail');
+  detailHtml.empty();
+
+  let okForm = h(`div#product-form`,[
+    h('div', [
+      h('h4.group', `COMPRA ${ok ? 'REALIZADA' : 'CANCELADA'}`),
+    ]),
+  ]);
+
+  detailHtml.append(okForm);
+}
+
 const doBuy = _ => {
-  console.log('DO BUY')
+  console.log('DO BUY');
+
+  BonitaAPIClient.confirmTask().then(ok => ok && showDone());
 }
 
 const cancelBuy = _ => {
-  console.log('CANCEL BUY')
+  console.log('CANCEL BUY');
+
+  BonitaAPIClient.confirmTask("false").then(ok => ok && showDone(false));
 }
 
 const startProcess = _ => {
@@ -57,13 +75,13 @@ const startProcess = _ => {
   const productForm = $('#product-form');
   productForm.empty();
 
-  const price = 0;
+  const price = 'calculando...';
 
   const detailHtml = $('#product-detail');
 
   let buyForm = h(`div#product-form`,[
     h('div', [
-      h('h4.group', `PRECIO FINAL ${price}`),
+      h('h4.group#final', `PRECIO FINAL: ${price}`),
       h('input.btn.btn-default#buyBtn', {
         'type': 'submit',
         'value': 'CONFIRMAR COMPRA',
@@ -85,8 +103,21 @@ const startProcess = _ => {
 
   detailHtml.append(buyForm);
 
-  console.log('start process', coupon)
-  // PEGARLE A BONITA PARA ARRANCAR PROCESO CON CUPON, ID PRODUCTO, SI ES EMPLEADO O NO
+  const productId = window.location.href.split('/').slice(-1)[0];
+
+  console.log(`start process, coupon: ${coupon} product_id: ${productId}`);
+
+  BonitaAPIClient.startProcess(productId ,coupon).then(ok => {
+    if (ok) {
+      setTimeout(_=> {
+        BonitaAPIClient.getVariable("precio_final").then(finalPrice => {
+          $("#final").html(`PRECIO FINAL: ${finalPrice}`);
+        })
+      }, 1000)
+    } 
+  })
+
+
 }
 
 const showBuyForm = _ => {

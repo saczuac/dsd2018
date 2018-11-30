@@ -6,6 +6,22 @@ const ProductAPIClient = {
     products: null,
     productDetail: null,
 
+    getCookie: name => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    },
+
     getProducts: _ => {
         const url = `/api/products/list`;
 
@@ -13,7 +29,7 @@ const ProductAPIClient = {
                     credentials: 'same-origin',
                     headers: {
                       'Content-Type': 'application/json',
-                      // 'x-csrftoken': cookies.get('csrftoken')
+                      'x-csrftoken': ProductAPIClient.getCookie('csrftoken')
                     },
                 })
                 .then(response => {
@@ -33,7 +49,7 @@ const ProductAPIClient = {
                     credentials: 'same-origin',
                     headers: {
                       'Content-Type': 'application/json',
-                      // 'x-csrftoken': cookies.get('csrftoken')
+                      'x-csrftoken': ProductAPIClient.getCookie('csrftoken')
                     },
                 })
                 .then(response => {
