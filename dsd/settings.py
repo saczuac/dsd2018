@@ -12,6 +12,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'product-list'
+
+BONITA_URL = 'http://localhost:8080/bonita'
+
+BONITA_USERNAME = 'walter.bates'
+
+BONITA_PASSWORD = 'bpm'
+
+BONITA_PROCESS_ID = '7628420773504853548'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,7 +34,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework_jwt',
+    'django_filters',
     'products',
+    'frontend',
+    'bonita',
+    'sales',
     'coupons',
     'employees'
 ]
@@ -44,7 +61,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,7 +121,22 @@ STATIC_ROOT = './static_root'
 
 STATIC_URL = '/static/'
 
+SITE_URL = 'http://localhost:8000'
+
 django_heroku.settings(locals())
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
 
 try:
     from dsd.local_settings import *
